@@ -1,0 +1,13 @@
+
+
+credenciales de admin: 
+email: 'admin@electro13.com',
+password: 'admin123'
+
+credenciales de vendedor
+email: 'vendedor@electro13.com',
+password: 'vendedor123'
+
+credenciales de cliente
+ email: 'cliente@electro13.com',
+ password: 'cliente123',

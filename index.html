@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venta de Electrodomésticos</title>
+    <link rel="stylesheet" href="/css/style.css">
+    
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <i><img src="/img/Logo.png" style="width:50px; height: 40px; border-radius: 20%;" alt="logo"></i>
+            </div>
+            <div>
+                <h1 style="margin-left: -150px;">Electrodomesticos La 13</h1>
+            </div>
+            <div>
+                <input type="search" name="buscarproducto" style="height:100%; border-radius: 10px;" placeholder="   Buscar producto" id="buscador">
+                <button class="btn" style="height:100%;"> Buscar</button>
+            </div>
+            <div>
+                <button type="button" class="btn" style="height:100%;"><a href="/login.html" style="text-decoration: none;color: aliceblue;">Iniciar Sesion</a></button>
+            </div>
+            
+        </header>
+        
+        <main>
+            <div class="producto">
+                <img src="/img/Refri. Samsung.webp" alt="Refrigerador">
+                <h3>Refrigerador Samsung</h3>
+                <p>Refrigerador de 20 pies cúbicos con tecnología inverter</p>
+                <div class="precio">$899.99</div>
+                <button class="btn agregar-carrito" data-id="1" data-nombre="Refrigerador Samsung" data-precio="899.99">Agregar al carrito</button>
+            </div>
+            
+            <div class="producto">
+                <img src="/img/Lavadora.webp" alt="Lavadora">
+                <h3>Lavadora Samsung</h3>
+                <p>Lavadora de carga frontal con capacidad de 15 kg</p>
+                <div class="precio">$649.99</div>
+                <button class="btn agregar-carrito" data-id="2" data-nombre="Lavadora LG" data-precio="649.99">Agregar al carrito</button>
+            </div>
+            
+            <div class="producto">
+                <img src="/img/horno electrico.webp" alt="Horno">
+                <h3>Horno Eléctrico</h3>
+                <p>Horno eléctrico empotrable de 30 pulgadas</p>
+                <div class="precio">$549.99</div>
+                <button class="btn agregar-carrito" data-id="3" data-nombre="Horno Eléctrico" data-precio="549.99">Agregar al carrito</button>
+            </div>
+            
+            <div class="producto">
+                <img src="/img/horno microondas.jpg" alt="Microondas">
+                <h3>Microondas Panasonic</h3>
+                <p>Microondas de 1.2 pies cúbicos con grill</p>
+                <div class="precio">$129.99</div>
+                <button class="btn agregar-carrito" data-id="4" data-nombre="Microondas Panasonic" data-precio="129.99">Agregar al carrito</button>
+            </div>
+        </main>
+        
+        <aside>
+           
+            <button class="btn vaciar-carrito"><a href="login.html" style="text-decoration: none;color: antiquewhite;">Inicia Sesion Para Comprar</a></button>
+        </aside>
+        
+        <footer>
+            <p>Electrodomesticos La 13 &copy; 2023 - Todos los derechos reservados</p>
+        </footer>
+    </div>
+
+    
+</body>
+</html>

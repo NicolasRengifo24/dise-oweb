@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/vendedor.css">
+    <title>POS - Electrodomésticos La 13</title>
+    
+</head>
+<body>
+    <!-- Panel de Productos -->
+    <div class="productos-container">
+        <div class="search-container">
+            <input type="text" id="buscar-producto" placeholder="Buscar producto...">
+            <button class="btn btn-primary" id="buscar-btn">Buscar</button>
+             <button class="btn btn-primary"><a href="login.html" style="text-decoration: none; color: antiquewhite;">Cerrar Sesion</a></button>
+
+        </div>
+        
+        <div class="categorias">
+            <button class="categoria-btn active">Todos</button>
+            <button class="categoria-btn">Refrigeración</button>
+            <button class="categoria-btn">Lavado</button>
+            <button class="categoria-btn">Cocina</button>
+            <button class="categoria-btn">Pequeños</button>
+        </div>
+        
+        <div class="productos-grid" id="productos-grid">
+            <!-- Productos se cargarán aquí -->
+        </div>
+    </div>
+    
+    <!-- Panel de Facturación -->
+    <div class="facturacion-container">
+        <div class="factura-header">
+            <h2>Facturación</h2>
+            <small id="numero-factura">#FAC-001-00001</small>
+        </div>
+        
+        <div class="cliente-info">
+            <div class="cliente-busqueda">
+                <input type="text" id="buscar-cliente" placeholder="Buscar cliente...">
+                <button class="btn btn-primary" id="nuevo-cliente">Nuevo</button>
+            </div>
+            <div class="cliente-seleccionado" id="cliente-seleccionado">
+                Cliente: <strong>Consumidor Final</strong>
+            </div>
+        </div>
+        
+        <div class="factura-body">
+            <ul class="factura-items" id="factura-items">
+                <!-- Items de la factura se agregarán aquí -->
+            </ul>
+        </div>
+        
+        <div class="factura-footer">
+            <div class="totales">
+                <div class="total-line subtotal">
+                    <span>Subtotal:</span>
+                    <span id="subtotal">$0.00</span>
+                </div>
+                <div class="total-line iva">
+                    <span>IVA (19%):</span>
+                    <span id="iva">$0.00</span>
+                </div>
+                <div class="total-line total">
+                    <span>Total:</span>
+                    <span id="total">$0.00</span>
+                </div>
+            </div>
+            
+            <div class="acciones">
+                <button class="btn btn-danger" id="cancelar-venta">Cancelar</button>
+                <button class="btn btn-success" id="procesar-pago">Procesar Pago</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal de Pago -->
+    <div class="modal" id="modal-pago">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Procesar Pago</h2>
+                <span class="close">&times;</span>
+            </div>
+            
+            <div class="metodos-pago">
+                <div class="metodo-pago selected" data-metodo="efectivo">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <div>Efectivo</div>
+                </div>
+                <div class="metodo-pago" data-metodo="tarjeta">
+                    <i class="fas fa-credit-card"></i>
+                    <div>Tarjeta</div>
+                </div>
+                <div class="metodo-pago" data-metodo="transferencia">
+                    <i class="fas fa-exchange-alt"></i>
+                    <div>Transferencia</div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="monto-recibido">Monto Recibido</label>
+                <input type="number" id="monto-recibido" placeholder="0.00">
+            </div>
+            
+            <div class="form-group">
+                <label for="cambio">Cambio</label>
+                <input type="number" id="cambio" placeholder="0.00" readonly>
+            </div>
+            
+            <button class="btn btn-success" id="confirmar-pago">Confirmar Pago</button>
+        </div>
+    </div>
+    <script src="/scripts/vendedor.js"></script>
+    
+</body>
+</html>

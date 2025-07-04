@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/admin.css">
+    <title>CRUD - Electrodomésticos La 13</title>
+   
+</head>
+<body>
+    <div class="container">
+        <div class="titulo">
+        <h1>Sistema de Gestión - Electrodomésticos La 13</h1>
+        <button class="btn btn-primary" ><a href="/login.html" style="text-decoration: none;color: azure;">Salir del Panel</a></button>
+        </div>
+        <div class="tabs">
+            <div class="tab active" data-tab="clientes">Clientes</div>
+            <div class="tab" data-tab="vendedores">Vendedores</div>
+            <div class="tab" data-tab="productos">Productos</div>
+        </div>
+        
+        <!-- Tab Clientes -->
+        <div id="clientes" class="tab-content active">
+            <div class="search-container">
+                <input type="text" id="search-cliente" placeholder="Buscar clientes...">
+                <button class="btn btn-primary" id="add-cliente">Agregar Cliente</button>
+            </div>
+            
+            <table id="tabla-clientes">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                        <th>Dirección</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="clientes-body">
+                    <!-- Datos de clientes se cargarán aquí -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Tab Vendedores -->
+        <div id="vendedores" class="tab-content">
+            <div class="search-container">
+                <input type="text" id="search-vendedor" placeholder="Buscar vendedores...">
+                <button class="btn btn-primary" id="add-vendedor">Agregar Vendedor</button>
+            </div>
+            
+            <table id="tabla-vendedores">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                        <th>Comisión</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="vendedores-body">
+                    <!-- Datos de vendedores se cargarán aquí -->
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Tab Productos -->
+        <div id="productos" class="tab-content">
+            <div class="search-container">
+                <input type="text" id="search-producto" placeholder="Buscar productos...">
+                <button class="btn btn-primary" id="add-producto">Agregar Producto</button>
+            </div>
+            
+            <table id="tabla-productos">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Categoría</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="productos-body">
+                    <!-- Datos de productos se cargarán aquí -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- Modal para formularios -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Agregar Cliente</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="modal-form">
+                <input type="hidden" id="edit-id">
+                <input type="hidden" id="edit-type">
+                
+                <!-- Campos para Cliente -->
+                <div id="cliente-fields">
+                    <div class="form-group">
+                        <label for="cliente-nombre">Nombre</label>
+                        <input type="text" id="cliente-nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cliente-email">Email</label>
+                        <input type="email" id="cliente-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cliente-telefono">Teléfono</label>
+                        <input type="text" id="cliente-telefono" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cliente-direccion">Dirección</label>
+                        <input type="text" id="cliente-direccion" required>
+                    </div>
+                </div>
+                
+                <!-- Campos para Vendedor -->
+                <div id="vendedor-fields" style="display: none;">
+                    <div class="form-group">
+                        <label for="vendedor-nombre">Nombre</label>
+                        <input type="text" id="vendedor-nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="vendedor-email">Email</label>
+                        <input type="email" id="vendedor-email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="vendedor-telefono">Teléfono</label>
+                        <input type="text" id="vendedor-telefono" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="vendedor-comision">Comisión (%)</label>
+                        <input type="number" id="vendedor-comision" min="0" max="100" required>
+                    </div>
+                </div>
+                
+                <!-- Campos para Producto -->
+                <div id="producto-fields" style="display: none;">
+                    <div class="form-group">
+                        <label for="producto-nombre">Nombre</label>
+                        <input type="text" id="producto-nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="producto-categoria">Categoría</label>
+                        <select id="producto-categoria" required>
+                            <option value="">Seleccione...</option>
+                            <option value="Refrigeración">Refrigeración</option>
+                            <option value="Lavado">Lavado</option>
+                            <option value="Cocina">Cocina</option>
+                            <option value="Electrodomésticos">Electrodomésticos</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="producto-precio">Precio</label>
+                        <input type="number" id="producto-precio" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="producto-stock">Stock</label>
+                        <input type="number" id="producto-stock" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="producto-descripcion">Descripción</label>
+                        <input type="text" id="producto-descripcion">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="button" class="btn btn-danger" id="cancel-form">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Datos de ejemplo (en un sistema real, estos vendrían de una API)
+        let clientes = [
+            { id: 1, nombre: "Juan Pérez", email: "juan@example.com", telefono: "3001234567", direccion: "Calle 123 #45-67" },
+            { id: 2, nombre: "María Gómez", email: "maria@example.com", telefono: "3109876543", direccion: "Av. Principal #12-34" }
+        ];
+        
+        let vendedores = [
+            { id: 1, nombre: "Carlos Ruiz", email: "carlos@tienda.com", telefono: "3205551234", comision: 5 },
+            { id: 2, nombre: "Ana López", email: "ana@tienda.com", telefono: "3154445678", comision: 7 }
+        ];
+        
+        let productos = [
+            { id: 1, nombre: "Refrigerador Samsung", categoria: "Refrigeración", precio: 899.99, stock: 10, descripcion: "20 pies cúbicos" },
+            { id: 2, nombre: "Lavadora LG", categoria: "Lavado", precio: 649.99, stock: 15, descripcion: "Carga frontal 15 kg" }
+        ];
+        
+        // Variables de estado
+        let currentTab = 'clientes';
+        let editMode = false;
+        let currentEditId = null;
+        
+        // Elementos del DOM
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalForm = document.getElementById('modal-form');
+        const closeModal = document.querySelector('.close');
+        const cancelBtn = document.getElementById('cancel-form');
+        
+        // Funciones principales
+        function init() {
+            loadTab(currentTab);
+            setupEventListeners();
+        }
+        
+        function setupEventListeners() {
+            // Tabs
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(c => c.classList.remove('active'));
+                    
+                    tab.classList.add('active');
+                    currentTab = tab.dataset.tab;
+                    document.getElementById(currentTab).classList.add('active');
+                    loadTab(currentTab);
+                });
+            });
+            
+            // Botones agregar
+            document.getElementById('add-cliente').addEventListener('click', () => openModal('cliente'));
+            document.getElementById('add-vendedor').addEventListener('click', () => openModal('vendedor'));
+            document.getElementById('add-producto').addEventListener('click', () => openModal('producto'));
+            
+            // Modal
+            closeModal.addEventListener('click', closeModalWindow);
+            cancelBtn.addEventListener('click', closeModalWindow);
+            modalForm.addEventListener('submit', handleFormSubmit);
+            
+            // Búsquedas
+            document.getElementById('search-cliente').addEventListener('input', (e) => searchItems('clientes', e.target.value));
+            document.getElementById('search-vendedor').addEventListener('input', (e) => searchItems('vendedores', e.target.value));
+            document.getElementById('search-producto').addEventListener('input', (e) => searchItems('productos', e.target.value));
+        }
+        
+        function loadTab(tab) {
+            switch(tab) {
+                case 'clientes':
+                    renderClientes();
+                    break;
+                case 'vendedores':
+                    renderVendedores();
+                    break;
+                case 'productos':
+                    renderProductos();
+                    break;
+            }
+        }
+        
+        function renderClientes() {
+            const tbody = document.getElementById('clientes-body');
+            tbody.innerHTML = '';
+            
+            clientes.forEach(cliente => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${cliente.id}</td>
+                    <td>${cliente.nombre}</td>
+                    <td>${cliente.email}</td>
+                    <td>${cliente.telefono}</td>
+                    <td>${cliente.direccion}</td>
+                    <td class="actions">
+                        <button class="btn btn-primary" onclick="editItem('cliente', ${cliente.id})">Editar</button>
+                        <button class="btn btn-danger" onclick="deleteItem('cliente', ${cliente.id})">Eliminar</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+        
+        function renderVendedores() {
+            const tbody = document.getElementById('vendedores-body');
+            tbody.innerHTML = '';
+            
+            vendedores.forEach(vendedor => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${vendedor.id}</td>
+                    <td>${vendedor.nombre}</td>
+                    <td>${vendedor.email}</td>
+                    <td>${vendedor.telefono}</td>
+                    <td>${vendedor.comision}%</td>
+                    <td class="actions">
+                        <button class="btn btn-primary" onclick="editItem('vendedor', ${vendedor.id})">Editar</button>
+                        <button class="btn btn-danger" onclick="deleteItem('vendedor', ${vendedor.id})">Eliminar</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+        
+        function renderProductos() {
+            const tbody = document.getElementById('productos-body');
+            tbody.innerHTML = '';
+            
+            productos.forEach(producto => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${producto.id}</td>
+                    <td>${producto.nombre}</td>
+                    <td>${producto.categoria}</td>
+                    <td>$${producto.precio.toFixed(2)}</td>
+                    <td>${producto.stock}</td>
+                    <td class="actions">
+                        <button class="btn btn-primary" onclick="editItem('producto', ${producto.id})">Editar</button>
+                        <button class="btn btn-danger" onclick="deleteItem('producto', ${producto.id})">Eliminar</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+        
+        function openModal(type) {
+            editMode = false;
+            currentEditId = null;
+            
+            // Ocultar todos los campos primero
+            document.getElementById('cliente-fields').style.display = 'none';
+            document.getElementById('vendedor-fields').style.display = 'none';
+            document.getElementById('producto-fields').style.display = 'none';
+            
+            // Mostrar los campos correctos y configurar el modal
+            if (type === 'cliente') {
+                document.getElementById('cliente-fields').style.display = 'block';
+                modalTitle.textContent = 'Agregar Cliente';
+                document.getElementById('edit-type').value = 'cliente';
+            } else if (type === 'vendedor') {
+                document.getElementById('vendedor-fields').style.display = 'block';
+                modalTitle.textContent = 'Agregar Vendedor';
+                document.getElementById('edit-type').value = 'vendedor';
+            } else if (type === 'producto') {
+                document.getElementById('producto-fields').style.display = 'block';
+                modalTitle.textContent = 'Agregar Producto';
+                document.getElementById('edit-type').value = 'producto';
+            }
+            
+            // Limpiar formulario
+            modalForm.reset();
+            modal.style.display = 'flex';
+        }
+        
+        function closeModalWindow() {
+            modal.style.display = 'none';
+        }
+        
+        function editItem(type, id) {
+            editMode = true;
+            currentEditId = id;
+            document.getElementById('edit-id').value = id;
+            document.getElementById('edit-type').value = type;
+            
+            // Ocultar todos los campos primero
+            document.getElementById('cliente-fields').style.display = 'none';
+            document.getElementById('vendedor-fields').style.display = 'none';
+            document.getElementById('producto-fields').style.display = 'none';
+            
+            if (type === 'cliente') {
+                const cliente = clientes.find(c => c.id === id);
+                if (cliente) {
+                    document.getElementById('cliente-fields').style.display = 'block';
+                    modalTitle.textContent = 'Editar Cliente';
+                    document.getElementById('cliente-nombre').value = cliente.nombre;
+                    document.getElementById('cliente-email').value = cliente.email;
+                    document.getElementById('cliente-telefono').value = cliente.telefono;
+                    document.getElementById('cliente-direccion').value = cliente.direccion;
+                }
+            } else if (type === 'vendedor') {
+                const vendedor = vendedores.find(v => v.id === id);
+                if (vendedor) {
+                    document.getElementById('vendedor-fields').style.display = 'block';
+                    modalTitle.textContent = 'Editar Vendedor';
+                    document.getElementById('vendedor-nombre').value = vendedor.nombre;
+                    document.getElementById('vendedor-email').value = vendedor.email;
+                    document.getElementById('vendedor-telefono').value = vendedor.telefono;
+                    document.getElementById('vendedor-comision').value = vendedor.comision;
+                }
+            } else if (type === 'producto') {
+                const producto = productos.find(p => p.id === id);
+                if (producto) {
+                    document.getElementById('producto-fields').style.display = 'block';
+                    modalTitle.textContent = 'Editar Producto';
+                    document.getElementById('producto-nombre').value = producto.nombre;
+                    document.getElementById('producto-categoria').value = producto.categoria;
+                    document.getElementById('producto-precio').value = producto.precio;
+                    document.getElementById('producto-stock').value = producto.stock;
+                    document.getElementById('producto-descripcion').value = producto.descripcion || '';
+                }
+            }
+            
+            modal.style.display = 'flex';
+        }
+        
+        function deleteItem(type, id) {
+            if (confirm('¿Estás seguro de eliminar este registro?')) {
+                if (type === 'cliente') {
+                    clientes = clientes.filter(c => c.id !== id);
+                    renderClientes();
+                } else if (type === 'vendedor') {
+                    vendedores = vendedores.filter(v => v.id !== id);
+                    renderVendedores();
+                } else if (type === 'producto') {
+                    productos = productos.filter(p => p.id !== id);
+                    renderProductos();
+                }
+            }
+        }
+        
+        function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const type = document.getElementById('edit-type').value;
+            const id = document.getElementById('edit-id').value;
+            
+            if (type === 'cliente') {
+                const cliente = {
+                    id: editMode ? parseInt(id) : clientes.length > 0 ? Math.max(...clientes.map(c => c.id)) + 1 : 1,
+                    nombre: document.getElementById('cliente-nombre').value,
+                    email: document.getElementById('cliente-email').value,
+                    telefono: document.getElementById('cliente-telefono').value,
+                    direccion: document.getElementById('cliente-direccion').value
+                };
+                
+                if (editMode) {
+                    const index = clientes.findIndex(c => c.id === parseInt(id));
+                    if (index !== -1) {
+                        clientes[index] = cliente;
+                    }
+                } else {
+                    clientes.push(cliente);
+                }
+                
+                renderClientes();
+            } else if (type === 'vendedor') {
+                const vendedor = {
+                    id: editMode ? parseInt(id) : vendedores.length > 0 ? Math.max(...vendedores.map(v => v.id)) + 1 : 1,
+                    nombre: document.getElementById('vendedor-nombre').value,
+                    email: document.getElementById('vendedor-email').value,
+                    telefono: document.getElementById('vendedor-telefono').value,
+                    comision: parseFloat(document.getElementById('vendedor-comision').value)
+                };
+                
+                if (editMode) {
+                    const index = vendedores.findIndex(v => v.id === parseInt(id));
+                    if (index !== -1) {
+                        vendedores[index] = vendedor;
+                    }
+                } else {
+                    vendedores.push(vendedor);
+                }
+                
+                renderVendedores();
+            } else if (type === 'producto') {
+                const producto = {
+                    id: editMode ? parseInt(id) : productos.length > 0 ? Math.max(...productos.map(p => p.id)) + 1 : 1,
+                    nombre: document.getElementById('producto-nombre').value,
+                    categoria: document.getElementById('producto-categoria').value,
+                    precio: parseFloat(document.getElementById('producto-precio').value),
+                    stock: parseInt(document.getElementById('producto-stock').value),
+                    descripcion: document.getElementById('producto-descripcion').value
+                };
+                
+                if (editMode) {
+                    const index = productos.findIndex(p => p.id === parseInt(id));
+                    if (index !== -1) {
+                        productos[index] = producto;
+                    }
+                } else {
+                    productos.push(producto);
+                }
+                
+                renderProductos();
+            }
+            
+            closeModalWindow();
+        }
+        
+        function searchItems(type, query) {
+            query = query.toLowerCase();
+            
+            if (type === 'clientes') {
+                const filtered = clientes.filter(cliente => 
+                    cliente.nombre.toLowerCase().includes(query) ||
+                    cliente.email.toLowerCase().includes(query) ||
+                    cliente.telefono.includes(query) ||
+                    cliente.direccion.toLowerCase().includes(query)
+                );
+                
+                const tbody = document.getElementById('clientes-body');
+                tbody.innerHTML = '';
+                
+                filtered.forEach(cliente => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${cliente.id}</td>
+                        <td>${cliente.nombre}</td>
+                        <td>${cliente.email}</td>
+                        <td>${cliente.telefono}</td>
+                        <td>${cliente.direccion}</td>
+                        <td class="actions">
+                            <button class="btn btn-primary" onclick="editItem('cliente', ${cliente.id})">Editar</button>
+                            <button class="btn btn-danger" onclick="deleteItem('cliente', ${cliente.id})">Eliminar</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } else if (type === 'vendedores') {
+                const filtered = vendedores.filter(vendedor => 
+                    vendedor.nombre.toLowerCase().includes(query) ||
+                    vendedor.email.toLowerCase().includes(query) ||
+                    vendedor.telefono.includes(query)
+                );
+                
+                const tbody = document.getElementById('vendedores-body');
+                tbody.innerHTML = '';
+                
+                filtered.forEach(vendedor => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${vendedor.id}</td>
+                        <td>${vendedor.nombre}</td>
+                        <td>${vendedor.email}</td>
+                        <td>${vendedor.telefono}</td>
+                        <td>${vendedor.comision}%</td>
+                        <td class="actions">
+                            <button class="btn btn-primary" onclick="editItem('vendedor', ${vendedor.id})">Editar</button>
+                            <button class="btn btn-danger" onclick="deleteItem('vendedor', ${vendedor.id})">Eliminar</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } else if (type === 'productos') {
+                const filtered = productos.filter(producto => 
+                    producto.nombre.toLowerCase().includes(query) ||
+                    producto.categoria.toLowerCase().includes(query) ||
+                    producto.precio.toString().includes(query) ||
+                    producto.stock.toString().includes(query)
+                );
+                
+                const tbody = document.getElementById('productos-body');
+                tbody.innerHTML = '';
+                
+                filtered.forEach(producto => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${producto.id}</td>
+                        <td>${producto.nombre}</td>
+                        <td>${producto.categoria}</td>
+                        <td>$${producto.precio.toFixed(2)}</td>
+                        <td>${producto.stock}</td>
+                        <td class="actions">
+                            <button class="btn btn-primary" onclick="editItem('producto', ${producto.id})">Editar</button>
+                            <button class="btn btn-danger" onclick="deleteItem('producto', ${producto.id})">Eliminar</button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+        }
+        
+        // Hacer funciones accesibles globalmente para los botones en las tablas
+        window.editItem = editItem;
+        window.deleteItem = deleteItem;
+        
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
